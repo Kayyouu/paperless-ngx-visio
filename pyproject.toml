@@ -78,6 +78,7 @@ dependencies = [
   "tika-client~=0.10.0",
   "torch~=2.10.0",
   "tqdm~=4.67.1",
+	"vsdx~=0.6.1",
   "watchfiles>=1.1.1",
   "whitenoise~=6.11",
   "whoosh-reloaded>=2.7.5",

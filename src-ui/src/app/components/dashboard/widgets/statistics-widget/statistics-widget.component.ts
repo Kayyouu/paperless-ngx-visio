@@ -35,6 +35,22 @@ interface DocumentFileType {
   is_other?: boolean
 }
 
+// Custom MIME type mappings for types not in mime-names library (for Visio)
+const CUSTOM_MIME_TYPES = {
+  'application/vnd.ms-visio.drawing.main+xml': { extensions: ['vsdx'], name: 'Visio Drawing' },
+  'application/vnd.ms-visio.drawing.macroEnabled.main+xml': { extensions: ['vsdm'], name: 'Visio Drawing (Macro)' },
+  'application/vnd.ms-visio.template.macroEnabled.main+xml': { extensions: ['vstm'], name: 'Visio Template (Macro)' },
+  'application/vnd.visio': { extensions: ['vsd'], name: 'Visio Drawing (Legacy)' },
+  'application/vnd.microsoft.visio': { extensions: ['vsd'], name: 'Visio Drawing (Legacy)' },
+  'application/x-visio': { extensions: ['vsd'], name: 'Visio Drawing (Legacy)' },
+  'application/x-ms-visio': { extensions: ['vsd'], name: 'Visio Drawing (Legacy)' },
+  'application/msvisio': { extensions: ['vsd'], name: 'Visio Drawing (Legacy)' },
+  'application/vnd.ms-office': { extensions: ['vsd'], name: 'Visio Drawing (Legacy)' },
+  'application/vnd.visio.xml': { extensions: ['vdx'], name: 'Visio Drawing XML' },
+  'application/visio': { extensions: ['vdx'], name: 'Visio Drawing XML' },
+  'application/visio.drawing': { extensions: ['vdx'], name: 'Visio Drawing XML' },
+}
+
 @Component({
   selector: 'pngx-statistics-widget',
   templateUrl: './statistics-widget.component.html',
@@ -90,6 +106,10 @@ export class StatisticsWidgetComponent
   }
 
   getFileTypeExtension(filetype: DocumentFileType): string {
+    const customType = CUSTOM_MIME_TYPES[filetype.mime_type] // Added Custom MIME display
+    if (customType) {
+      return customType.extensions[0].toUpperCase()
+    }
     return (
       mimeTypeNames[filetype.mime_type]?.extensions[0]?.toUpperCase() ??
       filetype.mime_type
